@@ -22,14 +22,14 @@ class BsHelper extends HtmlHelper {
  *
  * @var string
  */
-	public $pathCSS = 'bootstrap/bootstrap.min';
+	public $pathCSS = 'bootstrap.min';
 	
 /**
  * Path for JS bootstrap
  *
  * @var string
  */
-	public $pathJS = 'bootstrap/bootstrap.min.js';
+	public $pathJS = 'bootstrap.min.js';
 	
 /**
  * Path for JQuery
@@ -41,7 +41,7 @@ class BsHelper extends HtmlHelper {
 
 
 /**
- * Initialize an HTML 4 document and the head
+ * Initialize an HTML document and the head
  *
  * @param string $titre The name of the current page
  * @param string $description The description of the current page
@@ -94,7 +94,7 @@ class BsHelper extends HtmlHelper {
 	public function body() {
 		
 		$out =  '</head>' . BL;
-		$out .= '<body>' . BL;
+		$out .= '<body class="cbp-spmenu-push">' . BL;
 		
 		return $out;
 	}
@@ -122,13 +122,13 @@ class BsHelper extends HtmlHelper {
  * @return string A link tag for the head element
  */
 
-	public function css($array_css = array()) {
+	public function css($array_css = array(), $options = array()) {
 		
 		$out = parent::css($this->pathCSS). BL ;
 		
 		// Others CSS
 		foreach($array_css as $css)
-			$out .= parent::css($css) . BL;
+			$out .= parent::css($css, $options) . BL;
 			
 		return $out;
 	}
@@ -153,14 +153,99 @@ class BsHelper extends HtmlHelper {
 		return $out;
 	}
 	
+/**
+ * Close div elements
+ *
+ * @param int $nb Number of div you want to close
+ * @return string End tags div
+ */
+	public function close($nb = 1) {
+		$out = '';
+		for($i=0;$i<$nb;$i++)
+			$out .= '</div>' . BL;
+		return $out;
+	}
 	
-	/*
-	 * 
-	 * --------------------
-	 *      THE GRID
-	 * --------------------
-	 * 
-	 */
+/**
+ * Open a Bootstrap container
+ *
+ * @param array $options Options of the div element
+ * @return string Div element with the class 'container'
+ */
+	public function container($options = array()) {
+		$out = '';
+		$class = CONTAINER;
+		if(isset($options['class']))
+			$class .= SP . $options['class'];		
+		$out .= parent::div($class , null, $options). BL;
+		return $out;
+	}
+
+/**
+ * Open a Bootstrap row
+ *
+ * @param array $options Options of the div element
+ * @return string Div element with the class 'row'
+ */
+	public function row($options = array()) {
+		$out = '';
+		$class = ROW;
+		if(isset($options['class']))
+			$class .= SP . $options['class'];
+		$out .= parent::div($class , null, $options). BL;
+		return $out;
+	}
+
+
+/**
+ * Open a header element
+ *
+ * @param array $options Options of the header element
+ * @return string Tag header
+ */
+	public function header($options = array()) {
+		$out = parent::tag('header', null, $options). BL;
+		return $out;
+	}
+
+/**
+ * Close the header element
+ *
+ * @return string End tag header
+ */
+	public function closeHeader() {
+		return '</header>' . BL;
+	}
+
+
+/**
+ * Picture responsive
+ *
+ * Extends from HtmlHelper:image()
+ *	
+ * @param string $path Path to the image file, relative to the app/webroot/img/ directory.
+ * @param array $options Array of HTML attributes. See above for special options.
+ * @return string End tag header
+ */
+	public function image($path, $options = array()) {
+		if(isset($options['class'])){
+			$options['class'] .= ' img-responsive';
+		}else{
+			$options['class'] = 'img-responsive';
+		}
+		return parent::image($path, $options);
+	}
+	
+
+
+
+/*
+ * 
+ * --------------------
+ *      THE GRID
+ * --------------------
+ * 
+ */
 	
 	
 	
@@ -178,12 +263,12 @@ class BsHelper extends HtmlHelper {
  *
  * You can give all parameters you want before $attributes. The rule of params is :
  *
- * 'LAYOUT . SIZE . OPTION-1 . OPTION-2'
+ * 'LAYOUT+SIZE OPTIONS+SIZE'
  *
- * LAYOUT -> not obligatory for the first param ('xs' by default)
- * SIZE -> size of the column in a grid of 12 columns
- * OPTION-1 -> Not obligatory. Offset, push or pull. Called like this : 'of1', 'ph1' or 'pl1' where 1 is the size.
- * OPTION-2 -> The same that the previous option.
+ * LAYOUT -> not obligatory for the first param ('xs' by default).
+ * SIZE -> size of the column in a grid of 12 columns.
+ * OPTIONS -> Not obligatory. Offset, push or pull. Called like this : 'of', 'ph' or 'pl'.
+ * SIZE -> size of the option.
  *
  *
  * ### Attributes
@@ -194,9 +279,10 @@ class BsHelper extends HtmlHelper {
  * @param array $attributes Options of the div element
  * @return string DIV tag element 
  */
-	public function col($xs, $attributes = array()) {
+	public function col() {
 		$class = '';
 		$devices = array();
+		$attributes = array();
 
 		$args = func_get_args();
 		foreach ($args as $arg) {
@@ -207,83 +293,76 @@ class BsHelper extends HtmlHelper {
 			}
 		}
 
-		foreach ($devices as $d) {
-			$elem = $d;
+		$arrayDevice = array('xs' , 'sm' , 'md' , 'lg');
+		$arrayOptions = array('of' , 'ph' , 'pl');
+
+		foreach ($devices as $device) {
 			$ecran = null;
 			$taille = null;
 			$opt = null;
-			if ($d) {
-				$replace = array('(', ')', '-', '_', '/', '\\', ';', ',', ':');
-				$d = str_replace($replace, '.', $d);
-				$d = explode('.', $d);
-				if ($elem == $xs && is_numeric($d[0])) {
-					$ecran = COL.'xs';
-					$taille = $d[0];
-					if (isset($d[1])){
-						$opt = $this->optCol($d[1], $ecran, $taille);
-						if (isset($d[2])) {
-							$opt .= ' '.$this->optCol($d[2], $ecran, $taille);
-						}
-					}else{
-						$opt = '';
-					}
-				}else{
-					$ecran = COL.$d[0];
-					$taille = $d[1];
-					if (isset($d[2])){
-						$opt = $this->optCol($d[2], $ecran, $taille);
-						if (isset($d[3])) {
-							$opt .= ' '.$this->optCol($d[3], $ecran, $taille);
-						}
-					}else{
-						$opt = '';
-					}
-				}
-				if ($opt != '') {
-					$class .= ' '.$ecran.'-'.$taille.' '.$opt;
-				}else{
-					$class .= ' '.$ecran.'-'.$taille;
-				}
-			}	
-		}
+			$replace = array('(', ')', '-', '_', '/', '\\', ';', ',', ':', ' ');
+			$device = str_replace($replace, '.', $device);
+			$device = explode('.', $device);
 
-		$class = $this->_traitementClasse($class, $attributes);		
+			// On doit obligatoirement définir un écran en premier sinon ça ne marche pas
+			foreach ($device as $elem) {
+				if (!$ecran) {
+					$nom = substr($elem, 0, 2);
+					if(in_array($nom , $arrayDevice)) {
+						$ecran = $nom;
+						$taille = substr($elem, 2);
+					}
+				}else{
+					if ($opt) {
+						$opt .= $this->optCol($elem, $ecran);
+					}
+					else{
+						$opt = $this->optCol($elem, $ecran);
+					}
+				}
+			}
+			if ($opt) {
+				$class .= 'col-'.$ecran.'-'.$taille.' '.$opt.' ';
+			}else{
+				$class .= 'col-'.$ecran.'-'.$taille.' ';
+			}
+		}
+		$class = substr($class,0,-1);
+		if(isset($attributes['class']))
+			$class .= SP . $attributes['class'];
 		$out = parent::div($class , null, $attributes). BL;
 		return $out;
 	}
 
 
 /**
- * Fonction qui analyse le tableau d'option
+ * Complementary function with BsHelper::col()
+ *
+ * Add the correct class for the option in parameter
  *
  * @param array $elem // classe appliquée sur l'élément col {PARAMETRE OBLIGATOIRE}
  * @param string $ecran // layout concerné {PARAMETRE OBLIGATOIRE}
- * @param int $num // taille {PARAMETRE OBLIGATOIRE}
+ * @return string The class corresponding to the option
  */
 
-	private function optCol($elem, $ecran, $num){
-		if (is_numeric($elem) && $ecran != COL.'xs') {
-			return $ecran.'-offset-'.$elem;
-		}else{
-			$attr = substr($elem, 0, 2);
-			$num = substr($elem, 2, count($elem));
-			switch ($attr) {
-				case 'pl':
-					return $ecran.'-pull-'.$num;
-					break;
+	private function optCol($elem, $ecran){
+		$attr = substr($elem, 0, 2);
+		$taille = substr($elem, 2);
+		switch ($attr) {
+			case 'pl':
+				return 'col-'.$ecran.'-pull-'.$taille;
+				break;
 
-				case 'ph':
-					return $ecran.'-push-'.$num;
-					break;
-				
-				default:
-					if ($ecran != COL.'xs') {
-						return $ecran.'-offset-'.$num;
-					}else{
-						return '';
-					}
-					break;
-			}
+			case 'ph':
+				return 'col-'.$ecran.'-push-'.$taille;
+				break;
+			
+			case 'of':
+				return 'col-'.$ecran.'-offset-'.$taille;
+				break;
+			default:
+				return null;
+				break;
 		}
 	}
 	
