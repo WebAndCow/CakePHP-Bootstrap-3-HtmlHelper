@@ -256,7 +256,7 @@ class BsHelper extends HtmlHelper {
  *
  * ### Construction
  *
- * $this->Bs3->col('xs.3.of1.ph9', 'md.3');
+ * $this->Bs->col('xs3 of1 ph9', 'md3');
  *
  * It means : - For XS layout, a column size of 3, offset of 1 and push of 9.
  *			  - For MD layout, a column size of 3.
@@ -275,7 +275,7 @@ class BsHelper extends HtmlHelper {
  *
  * Same options that HtmlHelper::div();
  *
- * @param int $xs and more
+ * @param string layout, size and options (offset, push and/or pull)
  * @param array $attributes Options of the div element
  * @return string DIV tag element 
  */
