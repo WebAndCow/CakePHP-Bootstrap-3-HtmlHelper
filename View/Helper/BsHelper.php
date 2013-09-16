@@ -314,17 +314,19 @@ class BsHelper extends HtmlHelper {
 					}
 				}else{
 					if ($opt) {
-						$opt .= $this->optCol($elem, $ecran);
+						$opt .= ' '.$this->optCol($elem, $ecran);
 					}
 					else{
 						$opt = $this->optCol($elem, $ecran);
 					}
 				}
 			}
-			if ($opt) {
-				$class .= 'col-'.$ecran.'-'.$taille.' '.$opt.' ';
-			}else{
-				$class .= 'col-'.$ecran.'-'.$taille.' ';
+			if (isset($ecran) && $taille) {
+				if ($opt) {
+					$class .= 'col-'.$ecran.'-'.$taille.' '.$opt.' ';
+				}else{
+					$class .= 'col-'.$ecran.'-'.$taille.' ';
+				}
 			}
 		}
 		$class = substr($class,0,-1);
@@ -348,21 +350,23 @@ class BsHelper extends HtmlHelper {
 	private function optCol($elem, $ecran){
 		$attr = substr($elem, 0, 2);
 		$taille = substr($elem, 2);
-		switch ($attr) {
-			case 'pl':
-				return 'col-'.$ecran.'-pull-'.$taille;
-				break;
+		if (is_integer($taille) || !($taille == 0 && $ecran == 'sm'))  {
+			switch ($attr) {
+				case 'pl':
+					return 'col-'.$ecran.'-pull-'.$taille;
+					break;
 
-			case 'ph':
-				return 'col-'.$ecran.'-push-'.$taille;
-				break;
-			
-			case 'of':
-				return 'col-'.$ecran.'-offset-'.$taille;
-				break;
-			default:
-				return null;
-				break;
+				case 'ph':
+					return 'col-'.$ecran.'-push-'.$taille;
+					break;
+				
+				case 'of':
+					return 'col-'.$ecran.'-offset-'.$taille;
+					break;
+				default:
+					return null;
+					break;
+			}
 		}
 	}
 	
