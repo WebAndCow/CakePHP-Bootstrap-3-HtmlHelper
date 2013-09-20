@@ -229,7 +229,7 @@ class BsHelper extends HtmlHelper {
  */
 	public function image($path, $options = array()) {
 		if(isset($options['class'])){
-			$options['class'] .= ' img-responsive';
+			$options['class'] = 'img-responsive '.$options['class'];
 		}else{
 			$options['class'] = 'img-responsive';
 		}
