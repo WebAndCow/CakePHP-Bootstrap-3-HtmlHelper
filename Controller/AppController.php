@@ -34,4 +34,11 @@ App::uses('Controller', 'Controller');
 class AppController extends Controller {
 
 	public $helpers = array('Html', 'Bs');
+
+	public $titre = 'Title';
+	public $description = '';
+
+	public function beforeFilter() {
+		$this->layout = 'bootstrap';
+	}
 }

@@ -22,21 +22,21 @@ class BsHelper extends HtmlHelper {
  *
  * @var string
  */
-	public $pathCSS = 'bootstrap.min';
+	public $pathCSS = 'bootstrap';
 	
 /**
  * Path for JS bootstrap
  *
  * @var string
  */
-	public $pathJS = 'bootstrap.min.js';
+	public $pathJS = 'bootstrap.js';
 	
 /**
  * Path for JQuery
  *
  * @var string
  */
-	public $pathJquery = 'jquery.min.js';
+	public $pathJquery = 'http://codeorigin.jquery.com/jquery-1.10.2.min.js';
 	
 
 
