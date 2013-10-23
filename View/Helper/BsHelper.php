@@ -18,11 +18,12 @@ class BsHelper extends HtmlHelper {
 	public $name = 'Bs3';
 	
 /**
- * Path for CSS bootstrap 
+ * Path for CSS - Bootstrap and Font Awesome
  *
  * @var string
  */
 	public $pathCSS = 'bootstrap';
+	public $pathICONS = '//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css';
 	
 /**
  * Path for JS bootstrap
@@ -125,6 +126,7 @@ class BsHelper extends HtmlHelper {
 	public function css($array_css = array(), $options = array()) {
 		
 		$out = parent::css($this->pathCSS). BL ;
+		$out .= parent::css($this->pathICONS) . BL;
 		
 		// Others CSS
 		foreach($array_css as $css)
@@ -369,5 +371,45 @@ class BsHelper extends HtmlHelper {
 			}
 		}
 	}
-	
+
+/**
+ * Create a Font Awesome Icon
+ *
+ * @param string label of the icon
+ * @return array Options like 'fixed-width', 'large', '2x', etc.
+ */
+	public function icon($text, $options = array(), $attributes = array()) {
+
+		$class ='';
+		$more = '';
+
+		if (!empty($options)) {
+			foreach ($options as $opt) {
+				$class .= ' icon-'.$opt;
+			}
+		}
+
+		if (!empty($attributes)) {
+			foreach ($attributes as $key => $attr) {
+				$more .= ' '.$key.'='.$attr;
+			}
+		}
+
+		return '<i class="icon-'.$text.$class.'"'.$attr.'></i>';
+		
+	}
+
+	public function btn($texte, $type = 'default', $options = array()) {
+
+		$class ='btn btn-'.strtolower($type);
+
+		if (!empty($options)) {
+			foreach ($options as $opt) {
+				$class .= ' icon-'.$opt;
+			}
+		}
+
+		return '<i class="icon-'.$text.$class.'"></i>';
+		
+	}	
 }
