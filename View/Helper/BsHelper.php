@@ -474,11 +474,6 @@ class BsHelper extends HtmlHelper {
 				$out .= $classVisibility.'">'.$title['title'].'</th>';
 				$tablePos ++;
 			}
-
-			if ($width) {
-				$style = '<style>.l_5 {width: 5%}.l_10 {width: 10%}.l_15 {width: 15%}.l_20 {width: 20%}.l_25 {width: 25%}.l_30 {width: 30%}.l_35 {width: 35%}.l_40 {width: 40%}.l_45 {width: 45%}.l_50 {width: 50%}.l_55 {width: 55%}.l_60 {width: 60%}.l_65 {width: 65%}.l_70 {width: 70%}.l_75 {width: 75%}.l_80 {width: 80%}.l_85 {width: 85%}.l_90 {width: 90%}.l_95 {width: 95%}</style>';
-				$out = $style.$out;
-			}
 				
 			$out .= _TR;
 			$out .= '</thead>';
@@ -625,44 +620,47 @@ class BsHelper extends HtmlHelper {
 
 
 /**
- * Create a Font Awesome Icon
+ * Create a Bootstrap Button or Link
  *
  * @param string $text text in the button
- * @param string $type style of the button (primary, warning, etc)
- * @param array $options like size (lg, xs, sm), block or not, more classes or the tag
- * @param array $attributes more attributes for the tag
+ * @param string $url url of the link
+ * @param array $options 'size' => lg, sm or xs, to change the size of the button
+ *						 'type' => primary, success, etc, to change the color
+ *						 'tag' => to change the tag
+ *						 and more... (like 'class')
+ * @param array $confirmMessage to add a confirm pop-up
  * @return string
  */
-	public function btn($text, $type = 'default', $options = array(), $attributes = array()) {
+	public function btn($text, $url = array(), $options = array(), $confirmMessage = false) {
 
-		$class ='btn btn-'.strtolower($type);
-		$tag = 'button';
-		$more = '';
-
-		if (!empty($options)) {
-			foreach ($options as $key => $opt) {
-				if (is_numeric($key)) {
-					$class .= ' btn-'.$opt;
-				}else if ($key == 'class') {
-					$class .= ' '.$opt;
-				}
-			}
-		}
-
+		$tag = 'a';
 		if (!empty($options['tag'])) {
 			$tag = $options['tag'];
 		}
 
-		if (!empty($attributes)) {
-			foreach ($attributes as $key => $attr) {
-				$more .= ' '.$key.'="'.$attr.'"';
-			}
+		if (!isset($options['class'])) {
+			$options['class'] = 'btn';
+		}else{
+			$options['class'] = 'btn '.$options['class'];
 		}
 
-		if ($tag != 'input') {
-			return '<'.$tag.' class="'.$class.'"'.$more.'>'.$text.'</'.$tag.'>';
+		if (!empty($options['type'])) {
+			$options['class'] .= ' btn-'.$options['type'];
+		}
+		if (!empty($options['size'])) {
+			$options['class'] .= ' btn-'.$options['size'];
+		}
+
+		if ($tag != 'a') {
+			unset($options['tag']);
+			unset($options['type']);
+			unset($options['size']);
+		}
+
+		if ($tag != 'a') {
+			return parent::tag($tag, $text, $options);
 		}else{
-			return '<'.$tag.' class="'.$class.'"'.$more.' value="'.$text.'" />';
+			return parent::link($text, $url, $options, $confirmMessage);
 		}
 	}
 }
