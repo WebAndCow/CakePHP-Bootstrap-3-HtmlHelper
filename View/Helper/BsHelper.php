@@ -15,16 +15,34 @@ class BsHelper extends HtmlHelper {
  *
  * @var string
  */
-	public $name = 'Bs3';
-	
+	public $name = 'Bs';
+
+
+
+
+				/*--------------------------*
+				*						    *
+				*			CONFIG          *
+				*					        *
+				*--------------------------*/
+
+
 /**
  * Path for CSS - Bootstrap and Font Awesome
  *
  * @var string
  */
 	public $pathCSS = 'bootstrap';
-	public $pathICONS = '//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css';
-	
+	public $pathICONS = '//netdna.bootstrapcdn.com/font-awesome/4.0.0/css/font-awesome.css';
+	public $pathBsAddOn = 'bs_addon';
+
+	// Load Font Awesome
+	public $pathICONSLoad = true;
+	public $pathBsAddOnLoad = true;
+
+	// Prefix Font Awesome
+	public $fa_prefix = 'fa-';
+
 /**
  * Path for JS bootstrap
  *
@@ -135,7 +153,12 @@ class BsHelper extends HtmlHelper {
 	public function css($array_css = array(), $options = array()) {
 		
 		$out = parent::css($this->pathCSS). BL ;
-		$out .= parent::css($this->pathICONS) . BL;
+		if ($pathICONSLoad) {
+			$out .= parent::css($this->pathICONS) . BL;
+		}
+		if ($pathBsAddOnLoad) {
+			$out .= parent::css($this->pathBsAddOn) . BL;
+		}
 		
 		// Others CSS
 		foreach($array_css as $css)
@@ -574,29 +597,29 @@ class BsHelper extends HtmlHelper {
 /**
  * Create a Font Awesome Icon
  *
- * @param string $text label of the icon
+ * @param string $iconLabel label of the icon
  * @param array $options like 'fixed-width', 'large', '2x', etc.
  * @param array $attributes more attributes for the tag
  * @return string
  */
-	public function icon($text, $options = array(), $attributes = array()) {
+	public function icon($iconLabel, $classes = array(), $attributes = array()) {
 
 		$class ='';
 		$more = '';
 
-		if (!empty($options)) {
-			foreach ($options as $opt) {
-				$class .= ' icon-'.$opt;
+		if (!empty($classes)) {
+			foreach ($classes as $opt) {
+				$class .= ' '.$fa_prefix.$opt;
 			}
 		}
 
 		if (!empty($attributes)) {
 			foreach ($attributes as $key => $attr) {
-				$more .= ' '.$key.'='.$attr;
+				$more .= ' '.$key.'="'.$attr.'"';
 			}
 		}
 
-		return '<i class="icon-'.$text.$class.'"'.$more.'></i>';
+		return '<i class="'.$fa_prefix.$iconLabel.$class.'"'.$more.'></i>';
 		
 	}
 
@@ -632,14 +655,14 @@ class BsHelper extends HtmlHelper {
 
 		if (!empty($attributes)) {
 			foreach ($attributes as $key => $attr) {
-				$more .= ' '.$key.'='.$attr;
+				$more .= ' '.$key.'="'.$attr.'"';
 			}
 		}
 
 		if ($tag != 'input') {
-			return '<'.$tag.' type="button" class="'.$class.'"'.$more.'>'.$texte.'</'.$tag.'>';
+			return '<'.$tag.' class="'.$class.'"'.$more.'>'.$text.'</'.$tag.'>';
 		}else{
-			return '<'.$tag.' type="button" class="'.$class.'"'.$more.' value="'.$texte.'" />';
+			return '<'.$tag.' class="'.$class.'"'.$more.' value="'.$text.'" />';
 		}
 	}
 }

@@ -3,7 +3,7 @@
 echo $this->Bp->html($title_for_layout , $description_for_layout).
 		
 	// HEAD
-		$this->Bp->css().
+		$this->Bp->css(array('style.css')).
 		$this->Bp->js().
 	// \HEAD
 
