@@ -43,6 +43,9 @@ define('HERO' , 'hero-unit');
 define('WELL' , 'well');
 define('ALERT' , 'alert');
 
+define('TABLET' , 'md');
+define('PHONE' , 'sm');
+define('DESKTOP' , 'lg');
 
 define('BP_SUCCESS' , 'success');
 define('BP_WARNING' , 'warning');
