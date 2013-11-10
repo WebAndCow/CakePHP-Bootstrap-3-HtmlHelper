@@ -604,7 +604,7 @@ class BsHelper extends HtmlHelper {
 
 		if (!empty($classes)) {
 			foreach ($classes as $opt) {
-				$class .= ' '.$fa_prefix.$opt;
+				$class .= ' '.$this->fa_prefix.$opt;
 			}
 		}
 
@@ -614,7 +614,7 @@ class BsHelper extends HtmlHelper {
 			}
 		}
 
-		return '<i class="'.$fa_prefix.$iconLabel.$class.'"'.$more.'></i>';
+		return '<i class="'.$this->fa_prefix.$iconLabel.$class.'"'.$more.'></i>';
 		
 	}
 
