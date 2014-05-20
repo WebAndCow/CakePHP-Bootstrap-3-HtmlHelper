@@ -1,13 +1,13 @@
 BsHelper::modal(string $header, string $body, array $options = array(), array $buttons = array())
 
-_param string $header_ :
-Contenu de l'en-tête
-_param string $body_ :
-Contenu du corps
-_param array $options_ :
-Tableau indiquant l'ID du modal, classes supplémentaires et la présence ou non dans un formulaire.
-_param array $buttons_ :
-Tableau caractérisant les 3 boutons du modal.
+_param string $header_ :  
+Contenu de l'en-tête  
+_param string $body_ :  
+Contenu du corps  
+_param array $options_ :  
+Tableau indiquant l'ID du modal, classes supplémentaires et la présence ou non dans un formulaire.  
+_param array $buttons_ :  
+Tableau caractérisant les 3 boutons du modal.  
 
 Créer un modal de Bootstrap :
 
