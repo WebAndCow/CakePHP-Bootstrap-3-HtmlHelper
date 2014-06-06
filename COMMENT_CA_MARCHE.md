@@ -1,9 +1,15 @@
-**BsHelper::modal(string $header, string $body, array $options = array(), array $buttons = array())**
+# BsHelper
 
-_param string $header_ : contenu de l'en-tête.  
-_param string $body_ : contenu du corps.  
-_param array $options_ : tableau indiquant l'ID du modal, classes supplémentaires et si il intègre un formulaire.  
-_param array $buttons_ : tableau caractérisant les 3 boutons du modal.  
+BsHelper::modal(string $header, string $body, array $options = array(), array $buttons = array())
+
+_param string $header_ :
+Contenu de l'en-tête
+_param string $body_ :
+Contenu du corps
+_param array $options_ :
+Tableau indiquant l'ID du modal, classes supplémentaires et la présence ou non dans un formulaire.
+_param array $buttons_ :
+Tableau caractérisant les 3 boutons du modal.
 
 Créer un modal de Bootstrap :
 
@@ -47,3 +53,20 @@ Pour insérer un formulaire dans le body :
 		$this->Bs->modal('Mon en-tête', $form);
 
 La variable $form désigne ici le code HTML de votre formulaire.
+
+
+BeHelper::alert(string $text, string $state, array $options = array())
+
+$text : Définit le contenu de l'alerte.
+$state : L'état bootrstrap de l'alerte.
+$options : Tableau d'options caractérisant l'alerte.
+
+		$this->Bs->alert('monTexte', 'warning');
+
+Donnera :
+
+		'<div  class="alert alert-warning" style="display:none;"> monTexte </div>'
+
+Le tableau $options prend des attributs HTML classiques, mais aussi l'index 'dismiss' (true/false) pour définir si l'alerte peut être fermée ou non. Par défaut à true.
+
+		$this->Bs->alert('monTexte', 'warning', array('dismiss' => 'true', 'id' => 'monId', 'style' => 'color:purple	;'));
