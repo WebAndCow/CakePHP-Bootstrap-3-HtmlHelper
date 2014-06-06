@@ -34,7 +34,11 @@ class BsHelper extends HtmlHelper {
  */
 	public $pathCSS = 'bootstrap';
 	public $fa_path = '//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.css';
+
 	public $bs_addon_path = 'bs_addon';
+
+	// Load Bootstrap Datepicker
+	public $dp_css_path = 'datepicker';
 
 	// Load Font Awesome
 	public $fa_load = true;
@@ -49,6 +53,9 @@ class BsHelper extends HtmlHelper {
  * @var string
  */
 	public $pathJS = 'bootstrap.js';
+
+	// Load Bootstrap Datepicker
+	public $dp_js_path = 'bootstrap-datepicker';
 
 /**
  * Path for JQuery
@@ -163,6 +170,9 @@ class BsHelper extends HtmlHelper {
 		if ($this->bs_addon_load) {
 			$out .= parent::css($this->bs_addon_path) . BL;
 		}
+		if ($this->dp_css_path) {
+			$out .= parent::css($this->dp_css_path) . BL;
+		}
 
 		// Others CSS
 		foreach($path as $css)
@@ -183,6 +193,7 @@ class BsHelper extends HtmlHelper {
 
 		$out =  parent::script($this->pathJquery) . BL;
 		$out .= parent::script($this->pathJS) . BL;
+		$out .= parent::script($this->dp_js_path). BL;
 
 		// Others JS
 		foreach($array_js as $js)
@@ -572,6 +583,46 @@ class BsHelper extends HtmlHelper {
 				*					        *
 				*--------------------------*/
 
+
+/**
+ * Create a bootstrap alert element.
+ *
+ * @param string $text    Alert content
+ * @param string $state   Bootstrap state
+ * @param array  $options HTML attributes
+ *
+ * @return string
+ */
+	public function alert($text, $state, $options) {
+
+		if (!isset($options['class'])) {
+			$options['class'] = 'alert alert-'.$state;
+		} else {
+			$options['class'] .= ' alert alert-'.$state;
+		}
+		if (!isset($options['style'])) {
+			$options['style'] = 'display:none;';
+		} else {
+			$options['style'] .= 'display:none;';
+		}
+		if (!isset($options['dismiss']) or $options['dismiss'] == 'true') {
+			$dismiss = '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>';
+		}
+		unset($options['dismiss']);
+		$out = '<div ';
+		foreach ($options as $key => $value) {
+			$out .= ' '.$key.'="'.$value.'"';
+		}
+		$out .= '>';
+		if (isset($dismiss)) {
+			$out .= $dismiss;
+		}
+		$out .= $text;
+		$out .= '</div>';
+
+		debug($out);
+		return $out;
+	}
 
 
 /**
