@@ -1,6 +1,6 @@
 # BsHelper
 
-BsHelper::modal(string $header, string $body, array $options = array(), array $buttons = array())
+__BsHelper::modal(string $header, string $body, array $options = array(), array $buttons = array())__
 
 _param string $header_ :
 Contenu de l'en-tête
@@ -55,7 +55,7 @@ Pour insérer un formulaire dans le body :
 La variable $form désigne ici le code HTML de votre formulaire.
 
 
-BeHelper::alert(string $text, string $state, array $options = array())
+__BeHelper::alert(string $text, string $state, array $options = array())__
 
 $text : Définit le contenu de l'alerte.
 $state : L'état bootrstrap de l'alerte.
