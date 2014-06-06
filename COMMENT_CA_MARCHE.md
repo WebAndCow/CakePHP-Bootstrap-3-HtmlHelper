@@ -54,6 +54,7 @@ Pour insérer un formulaire dans le body :
 
 La variable $form désigne ici le code HTML de votre formulaire.
 
+----------------------------------------------------------------------------------------------------------------------------
 
 __BeHelper::alert(string $text, string $state, array $options = array())__
 
