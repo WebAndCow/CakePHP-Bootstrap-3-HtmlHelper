@@ -1,7 +1,8 @@
-CakePHP-Bootstrap-3-HtmlHelper
-==============================
 
-Extension of the CakePHP's HtmlHelper to use the framework Twitter Bootstrap v3.0.0 more easily
+
+The new project's repository is available here : [CakePHP-BsHelpers](https://github.com/WebAndCow/CakePHP-BsHelpers "CakePHP-BsHelpers")
+==========================================================================================================================
+
 
 The documentation in french is available here :
 
