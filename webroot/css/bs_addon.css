@@ -24,3 +24,7 @@
 /* Add the class .info for tables lines */
 
 .table > tbody > tr > td.info{background-color: #d9edf7;border-top-color: #bce8f1;}
+
+i.fa-open-modal {
+	cursor: pointer;
+}
